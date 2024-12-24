@@ -1,0 +1,2 @@
+[console_scripts]
+dramatic_logger = dramatic_logger.DramaticLogger:main

@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: DramaticLogger
+Version: 0.0.1
+Summary: A dramatic logging tool built on top of Loguru
+Home-page: https://github.com/Lexa-B/DramaticLogger
+Author: Lexa-B
+Author-email: Lexa.40@proton.me
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: loguru>=0.5.3
+
+# DramaticLogger
+
+DramaticLogger is a powerful logging tool built on top of Loguru, designed to provide enhanced and visually appealing log messages for your Python applications.
+
+## Features
+
+- Custom log levels with unique icons and colors
+- Multiple handlers for different logging outputs (stderr, file)
+- Easy integration with existing projects
+
+## Installation
+
+You can install DramaticLogger directly from GitHub using `pip`:
+
+```bash
+pip install git+https://github.com/Lexa-B/DramaticLogger.git
+```
+
+## Usage
+
+To use DramaticLogger in your project, simply import it and configure it as needed.
+
+```python
+from dramatic_logger import DramaticLogger
+
+logger = DramaticLogger()
+logger.info("Dramatic log message")
+```

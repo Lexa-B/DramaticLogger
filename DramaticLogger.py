@@ -20,7 +20,6 @@ DramaticLoggerConfig = {
     "startupMessage": "brief"
 }
 
-# logger.configure(**DramaticLoggerConfig["loguru"])
 loguru.configure(
     handlers=[
         {
@@ -29,7 +28,7 @@ loguru.configure(
             "format": "<cyan>{time:YYYY-MM-DD HH:mm:ss} </cyan>|<level> {level.name:<8} </level>|<level> {level.icon} {message}</level>",
         },
         {
-            "sink": "my_log_file.log",
+            "sink": "DLog.log",
             "level": DramaticLoggerConfig["level"]["file"],
             "format": "{time:YYYY-MM-DDTHH:mm:ss.SSS!UTC}Z - {level.icon} {level.name:<8} - {message}",
             "encoding": "utf-8",

@@ -1,1 +1,1 @@
-pip install loguru
+pip install -r requirements.txt

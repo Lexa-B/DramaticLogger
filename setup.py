@@ -7,7 +7,7 @@ long_description = (this_directory / "readme.md").read_text()
 
 setup(
     name='DramaticLogger',
-    version='0.0.1',
+    version='0.0.2',
     author='Lexa-B',
     author_email='Lexa.40@proton.me',
     description='A dramatic logging tool built on top of Loguru',

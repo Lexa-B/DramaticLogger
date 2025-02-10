@@ -1,8 +1,12 @@
 import sys
+import os
 from loguru import logger as loguru
 
 # Remove the default handler
 loguru.remove()
+
+# Create logging directory if it doesn't exist
+os.makedirs("DLogging", exist_ok=True)
 
 DramaticLoggerConfig = {
     "loguru": {
@@ -28,7 +32,7 @@ loguru.configure(
             "format": "<cyan>{time:YYYY-MM-DD HH:mm:ss} </cyan>|<level> {level.name:<8} </level>|<level> {level.icon} {message}</level>",
         },
         {
-            "sink": "DLog.log",
+            "sink": "DLogging/dramatic.log",
             "level": DramaticLoggerConfig["level"]["file"],
             "format": "{time:YYYY-MM-DDTHH:mm:ss.SSS!UTC}Z - {level.icon} {level.name:<8} - {message}",
             "encoding": "utf-8",
@@ -54,22 +58,22 @@ DramaticLoggerBottomLine = ("\n╘" + ("═" * 96) + "╛\n")
 DramaticLoggerContents = lambda x, y: DramaticLoggerTopLine + f"{x}" + DramaticLoggerSecondLine(x) + (f"\n{y}" if y else "") + DramaticLoggerBottomLine
 DramaticLogger = {
     "Dramatic": {
-        "success": lambda x, y=False: loguru.success(DramaticLoggerContents(x, y if y else "")),
-        "trace": lambda x, y=False: loguru.trace(DramaticLoggerContents(x, y if y else "")),
-        "debug": lambda x, y=False: loguru.debug(DramaticLoggerContents(x, y if y else "")),
-        "info": lambda x, y=False: loguru.info(DramaticLoggerContents(x, y if y else "")),
-        "warning": lambda x, y=False: loguru.warning(DramaticLoggerContents(x, y if y else "")),
-        "error": lambda x, y=False: loguru.error(DramaticLoggerContents(x, y if y else "")),
-        "critical": lambda x, y=False: loguru.critical(DramaticLoggerContents(x, y if y else ""))
+        "success": lambda x, y=False, **kwargs: loguru.success(DramaticLoggerContents(x, y if y else ""), **kwargs),
+        "trace": lambda x, y=False, **kwargs: loguru.trace(DramaticLoggerContents(x, y if y else ""), **kwargs),
+        "debug": lambda x, y=False, **kwargs: loguru.debug(DramaticLoggerContents(x, y if y else ""), **kwargs),
+        "info": lambda x, y=False, **kwargs: loguru.info(DramaticLoggerContents(x, y if y else ""), **kwargs),
+        "warning": lambda x, y=False, **kwargs: loguru.warning(DramaticLoggerContents(x, y if y else ""), **kwargs),
+        "error": lambda x, y=False, **kwargs: loguru.error(DramaticLoggerContents(x, y if y else ""), **kwargs),
+        "critical": lambda x, y=False, **kwargs: loguru.critical(DramaticLoggerContents(x, y if y else ""), **kwargs)
     },
     "Normal": {
-        "success": lambda x, y=False: loguru.success(f"{x} {y if y else ""}"),
-        "trace": lambda x, y=False: loguru.trace(f"{x} {y if y else ""}"),
-        "info": lambda x, y=False: loguru.info(f"{x} {y if y else ""}"),
-        "debug": lambda x, y=False: loguru.debug(f"{x} {y if y else ""}"),
-        "warning": lambda x, y=False: loguru.warning(f"{x} {y if y else ""}"),
-        "error": lambda x, y=False: loguru.error(f"{x} {y if y else ""}"),
-        "critical": lambda x, y=False: loguru.critical(f"{x} {y if y else ""}")
+        "success": lambda x, y=False, **kwargs: loguru.success(f"{x} {y if y else ''}", **kwargs),
+        "trace": lambda x, y=False, **kwargs: loguru.trace(f"{x} {y if y else ''}", **kwargs),
+        "info": lambda x, y=False, **kwargs: loguru.info(f"{x} {y if y else ''}", **kwargs),
+        "debug": lambda x, y=False, **kwargs: loguru.debug(f"{x} {y if y else ''}", **kwargs),
+        "warning": lambda x, y=False, **kwargs: loguru.warning(f"{x} {y if y else ''}", **kwargs),
+        "error": lambda x, y=False, **kwargs: loguru.error(f"{x} {y if y else ''}", **kwargs),
+        "critical": lambda x, y=False, **kwargs: loguru.critical(f"{x} {y if y else ''}", **kwargs)
     }
 }
 

@@ -53,18 +53,18 @@ loguru.configure(
 )
 
 DramaticLoggerTopLine = ("\n╒" + ("═" * 96) + "╕\n├─ ")
-DramaticLoggerSecondLine = lambda x: (" " + (("─" * (92 - len(x)) + "─┤") if len(x) < 92 else ""))
+DramaticLoggerSecondLine = lambda x, **kwargs: (" " + (("─" * (92 - len(x)) + "─┤") if len(x) < 92 else ""))
 DramaticLoggerBottomLine = ("\n╘" + ("═" * 96) + "╛\n")
-DramaticLoggerContents = lambda x, y: DramaticLoggerTopLine + f"{x}" + DramaticLoggerSecondLine(x) + (f"\n{y}" if y else "") + DramaticLoggerBottomLine
+DramaticLoggerContents = lambda x, y, **kwargs: DramaticLoggerTopLine + f"{x}" + DramaticLoggerSecondLine(x, **kwargs) + (f"\n{y}" if y else "") + DramaticLoggerBottomLine
 DramaticLogger = {
     "Dramatic": {
-        "success": lambda x, y=False, **kwargs: loguru.success(DramaticLoggerContents(x, y if y else ""), **kwargs),
-        "trace": lambda x, y=False, **kwargs: loguru.trace(DramaticLoggerContents(x, y if y else ""), **kwargs),
-        "debug": lambda x, y=False, **kwargs: loguru.debug(DramaticLoggerContents(x, y if y else ""), **kwargs),
-        "info": lambda x, y=False, **kwargs: loguru.info(DramaticLoggerContents(x, y if y else ""), **kwargs),
-        "warning": lambda x, y=False, **kwargs: loguru.warning(DramaticLoggerContents(x, y if y else ""), **kwargs),
-        "error": lambda x, y=False, **kwargs: loguru.error(DramaticLoggerContents(x, y if y else ""), **kwargs),
-        "critical": lambda x, y=False, **kwargs: loguru.critical(DramaticLoggerContents(x, y if y else ""), **kwargs)
+        "success": lambda x, y=False, **kwargs: loguru.success(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
+        "trace": lambda x, y=False, **kwargs: loguru.trace(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
+        "debug": lambda x, y=False, **kwargs: loguru.debug(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
+        "info": lambda x, y=False, **kwargs: loguru.info(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
+        "warning": lambda x, y=False, **kwargs: loguru.warning(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
+        "error": lambda x, y=False, **kwargs: loguru.error(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
+        "critical": lambda x, y=False, **kwargs: loguru.critical(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs)
     },
     "Normal": {
         "success": lambda x, y=False, **kwargs: loguru.success(f"{x} {y if y else ''}", **kwargs),

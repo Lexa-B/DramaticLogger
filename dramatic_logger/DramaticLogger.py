@@ -55,25 +55,51 @@ loguru.configure(
 DramaticLoggerTopLine = ("\n╒" + ("═" * 96) + "╕\n├─ ")
 DramaticLoggerSecondLine = lambda x, **kwargs: (" " + (("─" * (92 - len(x)) + "─┤") if len(x) < 92 else ""))
 DramaticLoggerBottomLine = ("\n╘" + ("═" * 96) + "╛\n")
-DramaticLoggerContents = lambda x, y, **kwargs: DramaticLoggerTopLine + f"{x}" + DramaticLoggerSecondLine(x, **kwargs) + (f"\n{y}" if y else "") + DramaticLoggerBottomLine
+
+def safe_format_log_message(message, details=False, **kwargs):
+    """Safely format a log message with error handling"""
+    try:
+        # Convert message to string if it isn't already
+        message = str(message)
+        
+        # If this is a dramatic message (with box formatting)
+        if kwargs.get('dramatic', True):
+            try:
+                formatted = (DramaticLoggerTopLine + 
+                           str(message) + 
+                           DramaticLoggerSecondLine(message) +
+                           (f"\n{details}" if details else "") +
+                           DramaticLoggerBottomLine)
+            except Exception as e:
+                # Fallback if box formatting fails
+                formatted = f"[Formatting Error] {message} {details if details else ''}"
+        else:
+            # Normal message formatting
+            formatted = f"{message} {details if details else ''}"
+            
+        return formatted
+    except Exception as e:
+        # Ultimate fallback
+        return f"[Logger Error: {str(e)}] Unable to format message"
+
 DramaticLogger = {
     "Dramatic": {
-        "success": lambda x, y=False, **kwargs: loguru.success(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
-        "trace": lambda x, y=False, **kwargs: loguru.trace(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
-        "debug": lambda x, y=False, **kwargs: loguru.debug(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
-        "info": lambda x, y=False, **kwargs: loguru.info(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
-        "warning": lambda x, y=False, **kwargs: loguru.warning(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
-        "error": lambda x, y=False, **kwargs: loguru.error(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs),
-        "critical": lambda x, y=False, **kwargs: loguru.critical(DramaticLoggerContents(x, y if y else "", **kwargs), **kwargs)
+        "success": lambda x, y=False, **kwargs: loguru.success(safe_format_log_message(x, y, dramatic=True), **kwargs),
+        "trace": lambda x, y=False, **kwargs: loguru.trace(safe_format_log_message(x, y, dramatic=True), **kwargs),
+        "debug": lambda x, y=False, **kwargs: loguru.debug(safe_format_log_message(x, y, dramatic=True), **kwargs),
+        "info": lambda x, y=False, **kwargs: loguru.info(safe_format_log_message(x, y, dramatic=True), **kwargs),
+        "warning": lambda x, y=False, **kwargs: loguru.warning(safe_format_log_message(x, y, dramatic=True), **kwargs),
+        "error": lambda x, y=False, **kwargs: loguru.error(safe_format_log_message(x, y, dramatic=True), **kwargs),
+        "critical": lambda x, y=False, **kwargs: loguru.critical(safe_format_log_message(x, y, dramatic=True), **kwargs)
     },
     "Normal": {
-        "success": lambda x, y=False, **kwargs: loguru.success(f"{x} {y if y else ''}", **kwargs),
-        "trace": lambda x, y=False, **kwargs: loguru.trace(f"{x} {y if y else ''}", **kwargs),
-        "info": lambda x, y=False, **kwargs: loguru.info(f"{x} {y if y else ''}", **kwargs),
-        "debug": lambda x, y=False, **kwargs: loguru.debug(f"{x} {y if y else ''}", **kwargs),
-        "warning": lambda x, y=False, **kwargs: loguru.warning(f"{x} {y if y else ''}", **kwargs),
-        "error": lambda x, y=False, **kwargs: loguru.error(f"{x} {y if y else ''}", **kwargs),
-        "critical": lambda x, y=False, **kwargs: loguru.critical(f"{x} {y if y else ''}", **kwargs)
+        "success": lambda x, y=False, **kwargs: loguru.success(safe_format_log_message(x, y, dramatic=False), **kwargs),
+        "trace": lambda x, y=False, **kwargs: loguru.trace(safe_format_log_message(x, y, dramatic=False), **kwargs),
+        "info": lambda x, y=False, **kwargs: loguru.info(safe_format_log_message(x, y, dramatic=False), **kwargs),
+        "debug": lambda x, y=False, **kwargs: loguru.debug(safe_format_log_message(x, y, dramatic=False), **kwargs),
+        "warning": lambda x, y=False, **kwargs: loguru.warning(safe_format_log_message(x, y, dramatic=False), **kwargs),
+        "error": lambda x, y=False, **kwargs: loguru.error(safe_format_log_message(x, y, dramatic=False), **kwargs),
+        "critical": lambda x, y=False, **kwargs: loguru.critical(safe_format_log_message(x, y, dramatic=False), **kwargs)
     }
 }
 
